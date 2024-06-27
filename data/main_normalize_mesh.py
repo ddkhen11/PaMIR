@@ -52,7 +52,7 @@ def main(worker_num=4):
              for data_item in data_list]
         pool.close()
         for item in r:
-            item.wait(timeout=9999999)
+            item.wait(timeout=999999)
     except KeyboardInterrupt:
         pool.terminate()
     finally:

@@ -110,7 +110,7 @@ def computePRT(mesh_path, n, order):
         hits = mesh.ray.intersects_any(origins + delta * normals, vectors)
         nohits = np.logical_and(front, np.logical_not(hits))
 
-        PRT = (nohits.astype(np.float) * dots)[:,None] * SH
+        PRT = (nohits.astype(float) * dots)[:,None] * SH # NOTE: changed np.float to float
         
         if PRT_all is not None:
             PRT_all += (PRT.reshape(-1, n, SH.shape[1]).sum(1))
