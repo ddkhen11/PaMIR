@@ -17,8 +17,8 @@ from renderer.camera import Camera
 """ 
 runtime configuration 
 """
-mesh_data_dir = '../dataset_example/mesh_data'
-output_data_dir = '../dataset_example/image_data'
+mesh_data_dir = os.path.join(os.path.dirname(__file__), '../../../dataset_example/mesh_data')
+output_data_dir = os.path.join(os.path.dirname(__file__), '../../../dataset_example/image_data')
 view_num = 360
 cam_f = 5000
 cam_dist = 10
@@ -193,7 +193,7 @@ def process_one_data_item(data_item, rndr, rndr_uv, shs):
 
 
 def main():
-    shs = np.load('./env_sh.npy')
+    shs = np.load(os.path.join(os.path.dirname(__file__), 'env_sh.npy'))
     egl = False
     
     from renderer.gl.init_gl import initialize_GL_context

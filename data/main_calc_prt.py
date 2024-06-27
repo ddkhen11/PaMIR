@@ -1,13 +1,10 @@
-import numpy as np
 import os
 import glob
 import multiprocessing
-import tqdm
 
-import objio
 import prt.prt_util as prt_util
 
-mesh_dir = '../dataset_example/mesh_data'
+mesh_dir = os.path.join(os.path.dirname(__file__), '../../../dataset_example/mesh_data')
 
 
 def get_data_list():

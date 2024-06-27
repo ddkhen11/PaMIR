@@ -1,10 +1,6 @@
 import numpy as np
 import os
-import cv2 as cv
 import glob
-import math
-import random
-from tqdm import tqdm
 import scipy.io as sio
 import trimesh
 import trimesh.sample
@@ -15,8 +11,8 @@ import multiprocessing
 """ 
 runtime configuration 
 """
-mesh_data_dir = '../dataset_example/mesh_data'
-output_data_dir = '../dataset_example/image_data'
+mesh_data_dir = os.path.join(os.path.dirname(__file__), '../../../dataset_example/mesh_data')
+output_data_dir = os.path.join(os.path.dirname(__file__), '../../../dataset_example/image_data')
 view_num = 360
 cam_f = 5000
 cam_dist = 10
