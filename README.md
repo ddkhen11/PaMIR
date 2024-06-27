@@ -1,4 +1,7 @@
 # PaMIR: Parametric Model-Conditioned Implicit Representation for Image-based Human Reconstruction
+
+**NOTE**: This repository will not work on its own. It only works as a third-party library for [Mesh2SMPL](https://github.com/ddkhen11/Mesh2SMPL).
+
 [Zerong Zheng](http://zhengzerong.github.io/), [Tao Yu](http://ytrock.com/), [Yebin Liu](http://www.liuyebin.com/), [Qionghai Dai](http://media.au.tsinghua.edu.cn/qhdai_new.html)
 
 
