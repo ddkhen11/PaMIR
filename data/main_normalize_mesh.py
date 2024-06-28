@@ -9,7 +9,6 @@ mesh_dir = os.path.join(os.path.dirname(__file__), '../../../dataset_example/mes
 
 def get_data_list():
     """reads data list"""
-    print(os.path.join(mesh_dir, './*/'))
     data_list = glob.glob(os.path.join(mesh_dir, './*/'))
     return sorted(data_list)
 
