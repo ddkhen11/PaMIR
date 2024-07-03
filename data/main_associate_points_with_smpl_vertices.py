@@ -16,8 +16,8 @@ import objio
 """ 
 runtime configuration 
 """
-mesh_data_dir = '../dataset_example/mesh_data'
-output_data_dir = '../dataset_example/image_data'
+mesh_data_dir = os.path.join(os.path.dirname(__file__), '../../../dataset_example/mesh_data')
+output_data_dir = os.path.join(os.path.dirname(__file__), '../../../dataset_example/image_data')
 view_num = 360
 cam_f = 5000
 cam_dist = 10
@@ -82,7 +82,7 @@ def main(worker_num=12):
              for data_item in data_list]
         pool.close()
         for item in r:
-            item.wait(timeout=9999999)
+            item.wait(timeout=999999)
     except KeyboardInterrupt:
         pool.terminate()
     finally:
