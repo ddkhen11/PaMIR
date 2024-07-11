@@ -32,6 +32,10 @@ def process_one_data_item(data_item):
 
     scale_inv = np.max(max_xyz-min_xyz)
     scale = 1.0 / scale_inv * (0.75 + np.random.rand() * 0.15)
+    
+    with open(f"{data_item}/scale.txt", 'w') as file:
+        file.write(str(scale))
+
     mesh_v *= scale
     mesh.vertices = mesh_v
     trimesh.base.export_mesh(mesh, obj_fname)
