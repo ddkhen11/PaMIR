@@ -111,8 +111,8 @@ def process_one_data_item(data_item, rndr, rndr_uv, shs):
     output_fd = os.path.join(output_data_dir, item_name)
     os.makedirs(output_fd, exist_ok=True)
     os.makedirs(os.path.join(output_fd, 'color'), exist_ok=True)
-    os.makedirs(os.path.join(output_fd, 'mask'), exist_ok=True)
-    os.makedirs(os.path.join(output_fd, 'color_uv'), exist_ok=True)
+    # os.makedirs(os.path.join(output_fd, 'mask'), exist_ok=True)
+    # os.makedirs(os.path.join(output_fd, 'color_uv'), exist_ok=True)
     os.makedirs(os.path.join(output_fd, 'meta'), exist_ok=True)
 
     vertices, faces, normals, faces_normals, textures, face_textures, \
@@ -151,20 +151,20 @@ def process_one_data_item(data_item, rndr, rndr_uv, shs):
         rndr.display()
 
         out_all_f = rndr.get_color(0)
-        out_mask = out_all_f[:,:,3]
+        # out_mask = out_all_f[:,:,3]
         out_all_f = cv.cvtColor(out_all_f, cv.COLOR_RGBA2BGR)
 
         cv.imwrite(os.path.join(output_fd, 'color', '%04d.jpg' % ci), np.uint8(out_all_f * 255))
-        cv.imwrite(os.path.join(output_fd, 'mask', '%04d.png' % ci), np.uint8(out_mask * 255))
+        # cv.imwrite(os.path.join(output_fd, 'mask', '%04d.png' % ci), np.uint8(out_mask * 255))
 
         rndr_uv.set_sh(sh)
         rndr_uv.analytic = False
         rndr_uv.use_inverse_depth = False
         rndr_uv.display()
 
-        uv_color = rndr_uv.get_color(0)
-        uv_color = cv.cvtColor(uv_color, cv.COLOR_RGBA2BGR)
-        cv.imwrite(os.path.join(output_fd, 'color_uv', '%04d.png' % ci), np.uint8(uv_color * 255))
+        # uv_color = rndr_uv.get_color(0)
+        # uv_color = cv.cvtColor(uv_color, cv.COLOR_RGBA2BGR)
+        # cv.imwrite(os.path.join(output_fd, 'color_uv', '%04d.png' % ci), np.uint8(uv_color * 255))
 
         if ci == 0:
             uv_pos = rndr_uv.get_color(1)
