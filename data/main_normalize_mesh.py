@@ -1,3 +1,4 @@
+import shutil
 import numpy as np
 import os
 import glob
@@ -25,6 +26,13 @@ def process_one_data_item(data_item):
     source_fd = os.path.join(mesh_dir, item_name)
     obj_fname, tex_fname = get_mesh_tex_fname(source_fd)
     mesh = trimesh.load(obj_fname)
+
+    filename = obj_fname.split('\\')[-1]
+    destination_path = f"{source_fd}/original/{filename}"
+    if not os.path.isdir(f"{source_fd}/original"):
+        os.makedirs(f"{source_fd}/original")
+    shutil.copy(obj_fname, destination_path)
+
     mesh_v = mesh.vertices
     min_xyz = np.min(mesh_v, axis=0, keepdims=True)
     max_xyz = np.max(mesh_v, axis=0, keepdims=True)
