@@ -1,16 +1,10 @@
+import argparse
 import os
 import glob
-import multiprocessing
 
 import prt.prt_util as prt_util
 
 mesh_dir = os.path.join(os.path.dirname(__file__), '../../../dataset_example/mesh_data')
-
-
-def get_data_list():
-    """reads data list"""
-    data_list = glob.glob(os.path.join(mesh_dir, './*/'))
-    return sorted(data_list)
 
 
 def get_mesh_tex_fname(folder):
@@ -21,36 +15,22 @@ def get_mesh_tex_fname(folder):
 
 
 def process_one_data_item(data_item):
-    _, item_name = os.path.split(data_item[:-1])
-    source_fd = os.path.join(mesh_dir, item_name)
-    obj_fname, tex_fname = get_mesh_tex_fname(source_fd)
+    item_name = os.path.split(data_item)[1]
+    obj_fname, tex_fname = get_mesh_tex_fname(data_item)
     prt_util.testPRT(obj_fname)
     print('Processed ' + item_name)
 
 
-def main(worker_num=4):
-    os.makedirs(mesh_dir, exist_ok=True)
-
-    data_list = get_data_list()
-    print('Found %d data items' % len(data_list))
-    pool = multiprocessing.Pool(processes=worker_num)
-    try:
-        r = [pool.apply_async(process_one_data_item, args=(data_item,))
-             for data_item in data_list]
-        pool.close()
-        for item in r:
-            item.wait(timeout=999999)
-    except KeyboardInterrupt:
-        pool.terminate()
-    finally:
-        pool.join()
-        print('Done. ')
-    # for data_item in tqdm.tqdm(data_list, ascii=True):
-    #     process_one_data_item(data_item)
-    #     import pdb
-    #     pdb.set_trace()
+def main(mesh_folder_name):
+    data_items = glob.glob(os.path.join(mesh_dir, mesh_folder_name))
+    process_one_data_item(data_items[0])
     print('Done')
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-n', '--mesh-folder-name', dest='mesh_folder_name', 
+                        required=True, type=str,
+                        help='The name of the folder containing your mesh data')
+    args = parser.parse_args()
+    main(args.mesh_folder_name)
