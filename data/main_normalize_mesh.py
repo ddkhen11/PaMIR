@@ -43,8 +43,8 @@ def process_one_data_item(data_item):
 
 
 def main(mesh_folder_name):
-    data_item = glob.glob(os.path.join(mesh_dir, mesh_folder_name))
-    process_one_data_item(data_item)
+    data_items = glob.glob(os.path.join(mesh_dir, mesh_folder_name))
+    process_one_data_item(data_items[0])
     print('Done')
 
 
