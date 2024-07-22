@@ -3,7 +3,6 @@ import shutil
 import numpy as np
 import os
 import glob
-import multiprocessing
 import trimesh
 
 mesh_dir = os.path.join(os.path.dirname(__file__), '../../../dataset_example/mesh_data')

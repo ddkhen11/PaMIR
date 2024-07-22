@@ -25,12 +25,6 @@ cam_dist = 10
 img_res = 512
 
 
-def get_data_list():
-    """reads data list"""
-    data_list = glob.glob(os.path.join(mesh_data_dir, './*/'))
-    return sorted(data_list)
-
-
 def read_data(item):
     """reads data """
     mesh_filename = glob.glob(os.path.join(item, '*.obj'))[0]  # assumes one .obj file
@@ -107,7 +101,7 @@ def generate_cameras(dist=10, view_num=60):
 
 
 def process_one_data_item(data_item, rndr, rndr_uv, shs):
-    _, item_name = os.path.split(data_item[:-1])
+    item_name = os.path.split(data_item)[1]
     output_fd = os.path.join(output_data_dir, item_name)
     os.makedirs(output_fd, exist_ok=True)
     os.makedirs(os.path.join(output_fd, 'color'), exist_ok=True)
@@ -192,7 +186,7 @@ def process_one_data_item(data_item, rndr, rndr_uv, shs):
     # pdb.set_trace()
 
 
-def main():
+def main(mesh_folder_name):
     shs = np.load(os.path.join(os.path.dirname(__file__), 'env_sh.npy'))
     egl = False
     
@@ -203,11 +197,15 @@ def main():
     rndr = PRTRender(width=img_res, height=img_res, ms_rate=1.0, egl=egl)
     rndr_uv = PRTRender(width=img_res, height=img_res, uv_mode=True, egl=egl)
 
-    data_list = get_data_list()
-    for data_item in tqdm(data_list, ascii=True):
-        process_one_data_item(data_item, rndr, rndr_uv, shs)
+    data_items = glob.glob(os.path.join(mesh_data_dir, mesh_folder_name))
+    process_one_data_item(data_items[0], rndr, rndr_uv, shs)
     print('Done')
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-n', '--mesh-folder-name', dest='mesh_folder_name', 
+                        required=True, type=str,
+                        help='The name of the folder containing your mesh data')
+    args = parser.parse_args()
+    main(args.mesh_folder_name)
