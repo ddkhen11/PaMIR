@@ -20,7 +20,7 @@ def process_one_data_item(data_item):
     mesh = trimesh.load(obj_fname)
 
     filename = os.path.split(data_item)[1]
-    destination_path = f"{data_item}/original/{filename}"
+    destination_path = f"{data_item}/original/{filename}.obj"
     if not os.path.isdir(f"{data_item}/original"):
         os.makedirs(f"{data_item}/original")
     shutil.copy(obj_fname, destination_path)
