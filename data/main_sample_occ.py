@@ -1,3 +1,4 @@
+import argparse
 import numpy as np
 import os
 import glob
@@ -24,12 +25,6 @@ sigma_small = 0.01
 curv_thresh = 0.004
 
 
-def get_data_list():
-    """reads data list"""
-    data_list = glob.glob(os.path.join(mesh_data_dir, './*/'))
-    return sorted(data_list)
-
-
 def read_data(item):
     """reads data """
     mesh_filename = glob.glob(os.path.join(item, '*.obj'))[0]  # assumes one .obj file
@@ -38,7 +33,7 @@ def read_data(item):
 
 
 def process_one_data_item(data_item):
-    _, item_name = os.path.split(data_item[:-1])
+    item_name = os.path.split(data_item)[1]
     output_fd = os.path.join(output_data_dir, item_name)
     os.makedirs(output_fd, exist_ok=True)
     os.makedirs(os.path.join(output_fd, 'sample'), exist_ok=True)
@@ -100,26 +95,16 @@ def process_one_data_item(data_item):
     # pdb.set_trace()
 
 
-def main(worker_num=8):
-    data_list = get_data_list()
-    print('Found %d data items' % len(data_list))
-
-    # for data_item in tqdm(data_list, ascii=True):
-    #     process_one_data_item(data_item)
-    # print('Done')
-    pool = multiprocessing.Pool(processes=worker_num)
-    try:
-        r = [pool.apply_async(process_one_data_item, args=(data_item,))
-             for data_item in data_list]
-        pool.close()
-        for item in r:
-            item.wait(timeout=999999)
-    except KeyboardInterrupt:
-        pool.terminate()
-    finally:
-        pool.join()
-        print('Done. ')
+def main(mesh_folder_name):
+    data_item = os.path.join(mesh_data_dir, mesh_folder_name)
+    process_one_data_item(data_item)
+    print('Done')
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-n', '--mesh-folder-name', dest='mesh_folder_name', 
+                        required=True, type=str,
+                        help='The name of the folder containing your mesh data')
+    args = parser.parse_args()
+    main(args.mesh_folder_name)

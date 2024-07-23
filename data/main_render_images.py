@@ -1,3 +1,4 @@
+import argparse
 import numpy as np
 import os
 import cv2 as cv
@@ -197,8 +198,8 @@ def main(mesh_folder_name):
     rndr = PRTRender(width=img_res, height=img_res, ms_rate=1.0, egl=egl)
     rndr_uv = PRTRender(width=img_res, height=img_res, uv_mode=True, egl=egl)
 
-    data_items = glob.glob(os.path.join(mesh_data_dir, mesh_folder_name))
-    process_one_data_item(data_items[0], rndr, rndr_uv, shs)
+    data_item = os.path.join(mesh_data_dir, mesh_folder_name)
+    process_one_data_item(data_item, rndr, rndr_uv, shs)
     print('Done')
 
 
