@@ -20,7 +20,7 @@ runtime configuration
 """
 mesh_data_dir = os.path.join(os.path.dirname(__file__), '../../../dataset_example/mesh_data')
 output_data_dir = os.path.join(os.path.dirname(__file__), '../../../dataset_example/image_data')
-view_num = 360
+view_num = 60
 cam_f = 5000
 cam_dist = 10
 img_res = 512
