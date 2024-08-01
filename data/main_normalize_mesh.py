@@ -1,18 +1,31 @@
 import argparse
+from itertools import chain
 import shutil
 import numpy as np
 import os
 import glob
 import trimesh
+from PIL import Image
 
 mesh_dir = os.path.join(os.path.dirname(__file__), '../../../dataset_example/mesh_data')
+extensions = ['*.jpg', '*.jpeg', '*.png', '*.bmp', '*.tiff']
 
 
 def get_mesh_tex_fname(folder):
     obj_list = glob.glob(os.path.join(folder, '*.obj'))
-    jpg_list = glob.glob(os.path.join(folder, '*.jpg'))
-    assert len(obj_list)==1 and len(jpg_list)==1, '[ERROR] More than one obj/jpg file are found!'
-    return obj_list[0], jpg_list[0]
+    img_list = list(chain.from_iterable(glob.glob(os.path.join(folder, ext)) for ext in extensions))
+    assert len(obj_list)==1 and len(img_list)==1, 'Ony one obj file and texture image allowed!'
+
+    base_name = os.path.basename(img_list[0])
+    name, ext = os.path.splitext(base_name)
+    jpg_path = img_list[0]
+    if ext != '.jpg':
+        with Image.open(img_list[0]) as img:
+            jpg_path = os.path.join(folder, f"{name}.jpg")
+            img.convert('RGB').save(jpg_path, 'JPEG')
+        os.remove(img_list[0])
+
+    return obj_list[0], jpg_path
 
 
 def process_one_data_item(data_item):
